@@ -1,0 +1,19 @@
+# Use Python 3.9 as the base image
+FROM python:3.9-slim
+
+# Set the working directory 
+WORKDIR /app
+
+# Copy the current directory contents into the container at this directory
+COPY src /app/src
+COPY tests /app/tests
+COPY config /app/config
+COPY pipeline.py /app/pipeline.py
+COPY requirements.txt /app/requirements.txt
+
+
+# Install any necessary dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Run the pipeline and save the artifacts to /app/artifacts
+ENTRYPOINT ["pytest", "tests/test_generate_features.py"]
